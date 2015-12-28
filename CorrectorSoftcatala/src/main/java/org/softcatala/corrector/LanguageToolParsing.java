@@ -30,8 +30,6 @@ import org.xml.sax.InputSource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import android.util.Log;
-
 public class LanguageToolParsing {
 
     private static final String TAG = SampleSpellCheckerService.class
@@ -51,7 +49,7 @@ public class LanguageToolParsing {
             return doc.getElementsByTagName("error");
 
         } catch (Exception e) {
-            Log.e(TAG, "readXml", e);
+            Logger.LOG(TAG, "readXml" +  e);
             return null;
         }
     }
@@ -92,11 +90,11 @@ public class LanguageToolParsing {
                 suggestion.Length = getIntFromNode(errorLength);
                 suggestions.add(suggestion);
 
-                Log.d(TAG, "Request result: " + suggestion.Position + " Len:" + suggestion.Length);
+                Logger.LOG(TAG, "Request result: " + suggestion.Position + " Len:" + suggestion.Length);
             }
 
         } catch (Exception e) {
-            Log.e(TAG, "GetSuggestions", e);
+            Logger.LOG(TAG, "GetSuggestions" + e);
         }
 
         return suggestions.toArray(new Suggestion[0]);
@@ -114,7 +112,7 @@ public class LanguageToolParsing {
         for (int i = 0; i < lines.length; i++) {
             linelen.add(i, currentY);
             currentY += lines[i].length() + 1;
-            Log.i(TAG, "Line len: " + currentY);
+            //Logger.LOG(TAG, "Line len: " + currentY);
         }
         return linelen;
     }

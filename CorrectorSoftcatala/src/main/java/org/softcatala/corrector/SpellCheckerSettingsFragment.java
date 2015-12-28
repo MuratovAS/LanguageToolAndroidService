@@ -43,7 +43,7 @@ public class SpellCheckerSettingsFragment extends PreferenceFragment {
         Boolean dialect = Configuration.getInstance().getDialect();
         CheckBoxPreference cb = (CheckBoxPreference) findPreference("dialect");
         cb.setChecked(dialect);
-        Log.d(TAG, "onCreate");
+        Logger.LOG(TAG, "SpellCheckerSettingsFragment.onCreate");
 
         Preference http = findPreference("http");
         Date lastConnection = Configuration.getInstance().getLastConnection();
@@ -56,7 +56,7 @@ public class SpellCheckerSettingsFragment extends PreferenceFragment {
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 Boolean dialect = Configuration.getInstance().getDialect();
                 Configuration.getInstance().setDialect(!dialect);
-                Log.d(TAG, "Pref " + preference.getKey() + " changed to " + newValue.toString());
+                Logger.LOG(TAG, "Pref " + preference.getKey() + " changed to " + newValue.toString());
                 return true;
             }
         });

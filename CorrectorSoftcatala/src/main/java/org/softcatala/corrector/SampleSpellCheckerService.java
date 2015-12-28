@@ -36,6 +36,7 @@ public class SampleSpellCheckerService extends SpellCheckerService {
 
 	@Override
 	public Session createSession() {
+        Logger.LOG(TAG, "createSession");
 		return new AndroidSpellCheckerSession();
 	}
 
@@ -63,10 +64,24 @@ public class SampleSpellCheckerService extends SpellCheckerService {
 		public void onCreate() {
 			// TODO: To allow debugging a service
 			// android.os.Debug.waitForDebugger();
+            Logger.LOG(TAG, "onCreate");
 			mLocale = getLocale();
 		}
 
-		/**
+        @Override
+        public void onCancel()
+        {
+            Logger.LOG(TAG, "onCancel");
+        }
+
+        @Override
+        public void onClose()
+        {
+            Logger.LOG(TAG, "onClose");
+        }
+
+
+        /**
 		 * This method should have a concrete implementation in all spell
 		 * checker services. Please note that the default implementation of
 		 * {@link SpellCheckerService.Session#onGetSuggestionsMultiple(TextInfo[], int, boolean)}
@@ -81,7 +96,7 @@ public class SampleSpellCheckerService extends SpellCheckerService {
 		public SuggestionsInfo onGetSuggestions(TextInfo textInfo,
 				int suggestionsLimit) {
 			if (DBG) {
-				Log.d(TAG, "onGetSuggestions: " + textInfo.getText());
+				Logger.LOG(TAG, "onGetSuggestions: " + textInfo.getText());
 			}
 			final String input = textInfo.getText();
 			final int length = input.length();
@@ -115,7 +130,7 @@ public class SampleSpellCheckerService extends SpellCheckerService {
 
             try {
                 if (!isSentenceSpellCheckApiSupported()) {
-                    Log.e(TAG,
+                    Logger.LOG(TAG,
                             "Sentence spell check is not supported on this platform, "
                                     + "but accidentially called.");
                     return null;
@@ -125,7 +140,7 @@ public class SampleSpellCheckerService extends SpellCheckerService {
                 for (int i = 0; i < textInfos.length; ++i) {
                     final TextInfo ti = textInfos[i];
                     if (DBG) {
-                        Log.d(TAG,
+                        Logger.LOG(TAG,
                                 "onGetSentenceSuggestionsMultiple: " + ti.getText());
                     }
                     final String input = ti.getText();
@@ -159,7 +174,7 @@ public class SampleSpellCheckerService extends SpellCheckerService {
 
                 return retval.toArray(new SentenceSuggestionsInfo[0]);
             } catch (Exception e) {
-                Log.e(TAG, "onGetSentenceSuggestionsMultiple", e);
+                Logger.LOG(TAG, "onGetSentenceSuggestionsMultiple:" + e);
                 return null;
             }
 		}
